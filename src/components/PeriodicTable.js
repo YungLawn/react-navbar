@@ -75,7 +75,7 @@ const ElementTile = (element) => {
                 {ElementText(element.id, element.num, element.mass, hover, active)}
             </mesh>
 
-            {IsotopeStack(element, active)}
+            {/* {IsotopeStack(element, active)} */}
         </mesh>
         
         
@@ -186,20 +186,20 @@ export default function PeriodicTable() {
         {num: 38, id:'Sr', name:'Strontium', mass:'87.62', x:2, y:6, isotopes: [R,R,R,B,B,B,B,B,B,B,B,G,B,G,G,G,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R,R]},
         {num: 39, id:'Y', name:'Yttrium', mass:'88.90585', x:3, y:6, isotopes: [R,R,B,B,B,B,B,B,B,B,B,B,B,G,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R]},
         {num: 40, id:'Zr', name:'Zirconium', mass:'91.224', x:4, y:6, isotopes: [R,R,B,B,B,B,B,B,B,B,B,B,G,G,G,B,G,B,G,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R]},
-        {num: 41, id:'Nb', name:'Niobium', mass:'92.90628', x:5, y:6, isotopes: []},
-        {num: 42, id:'Mo', name:'Molybdenum', mass:'95.96', x:6, y:6, isotopes: []},
-        {num: 43, id:'Tc', name:'Technetium', mass:'(98)', x:7, y:6, isotopes: []},
-        {num: 44, id:'Ru', name:'Ruthenium', mass:'101.07', x:8, y:6, isotopes: []},
-        {num: 45, id:'Rh', name:'Rhodium', mass:'102.9055',  x:9, y:6, isotopes: []},
-        {num: 46, id:'Pd', name:'Palladium', mass:'106.42', x:10, y:6, isotopes: []},
-        {num: 47, id:'Ag', name:'Silver', mass:'107.8682', x:11, y:6, isotopes: []},
-        {num: 48, id:'Cd', name:'Cadmium', mass:'112.411', x:12, y:6, isotopes: []},
-        {num: 49, id:'In', name:'Indium', mass:'114.818', x:13, y:6, isotopes: []},
-        {num: 50, id:'Sn', name:'Tin', mass:'118.71', x:14, y:6, isotopes: []},
-        {num: 51, id:'Sb', name:'Antimony', mass:'121.76', x:15, y:6, isotopes: []},
-        {num: 52, id:'Te', name:'Tellurium', mass:'127.6', x:16, y:6, isotopes: []},
-        {num: 53, id:'I', name:'Iodine', mass:'126.90447', x:17, y:6, isotopes: []},
-        {num: 54, id:'Xe', name:'Xenon', mass:'131.293', x:18, y:6, isotopes: []},
+        {num: 41, id:'Nb', name:'Niobium', mass:'92.90628', x:5, y:6, isotopes: [R,B,B,B,B,B,B,B,B,B,B,G,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R]},
+        {num: 42, id:'Mo', name:'Molybdenum', mass:'95.96', x:6, y:6, isotopes: [R,B,B,B,B,B,B,B,B,G,B,G,G,G,G,G,B,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R]},
+        {num: 43, id:'Tc', name:'Technetium', mass:'(98)', x:7, y:6, isotopes: [R,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R,R]},
+        {num: 44, id:'Ru', name:'Ruthenium', mass:'101.07', x:8, y:6, isotopes: [R,B,B,B,B,B,B,B,B,G,B,G,G,G,G,G,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R]},
+        {num: 45, id:'Rh', name:'Rhodium', mass:'102.9055',  x:9, y:6, isotopes: [R,B,B,B,B,B,B,B,B,B,B,B,B,B,G,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R]},
+        {num: 46, id:'Pd', name:'Palladium', mass:'106.42', x:10, y:6, isotopes: [R,B,B,B,B,B,B,B,B,B,B,G,B,G,G,G,B,G,B,G,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R]},
+        {num: 47, id:'Ag', name:'Silver', mass:'107.8682', x:11, y:6, isotopes: [R,B,B,B,B,B,B,B,B,B,B,B,B,G,B,G,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R,R,R]},
+        {num: 48, id:'Cd', name:'Cadmium', mass:'112.411', x:12, y:6, isotopes: [B,B,B,B,B,B,B,B,B,G,B,G,B,G,G,G,B,G,B,B,B,B,B,B,B,B,B,B,,R,R,R,R,R,R,R]},
+        {num: 49, id:'In', name:'Indium', mass:'114.818', x:13, y:6, isotopes: [B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,G,B,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R]},
+        {num: 50, id:'Sn', name:'Tin', mass:'118.71', x:14, y:6, isotopes: [B,B,B,B,B,B,B,B,B,B,B,B,G,B,G,G,G,G,G,G,G,B,G,G,B,B,B,B,B,B,B,B,B,B,B,R,R,R]},
+        {num: 51, id:'Sb', name:'Antimony', mass:'121.76', x:15, y:6, isotopes: [R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,G,B,G,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R]},
+        {num: 52, id:'Te', name:'Tellurium', mass:'127.6', x:16, y:6, isotopes: [R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,G,B,G,B,G,G,G,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R]},
+        {num: 53, id:'I', name:'Iodine', mass:'126.90447', x:17, y:6, isotopes: [R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,G,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R]},
+        {num: 54, id:'Xe', name:'Xenon', mass:'131.293', x:18, y:6, isotopes: [R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,G,B,G,B,G,G,G,G,G,B,G,B,G,B,B,B,B,B,B,R,R,R,R,R]},
     
         {num: 55, id:'Cs', name:'Caesium', mass:'132.9054', x:1, y:5, isotopes: []},
         {num: 56, id:'Ba', name:'Barium', mass:'132.9054', x:2, y:5, isotopes: []},
