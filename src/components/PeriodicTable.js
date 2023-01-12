@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { RoundedBox, useCursor } from '@react-three/drei';
+import { RoundedBox, useCursor, Text } from '@react-three/drei';
 import PeriodicText from "./PeriodicText";
 
 const Tile = (props) => {
@@ -9,18 +9,25 @@ const Tile = (props) => {
     useCursor(hover);
 
     return(
-        <RoundedBox 
-        position={props.position} 
-        args={[1, 1, 0.25]} 
-        radius={0.05} 
-        smoothness={3}
-        scale={hover || active ? props.scaleFactor : 1}
-        onPointerOver={() => {setHover(true)}}
-        onPointerOut={() => {setHover(false)}}
-        onClick={() => {setActive(!active)}}
-        >
-            <meshLambertMaterial color={hover || active ? props.colorSelected : props.color}/>
-        </RoundedBox>
+        <mesh>
+            <RoundedBox 
+            position={props.position} 
+            args={[1, 1, 0.25]} 
+            radius={0.05} 
+            smoothness={3}
+            scale={hover || active ? props.scaleFactor : 1}
+            onPointerOver={() => {setHover(true)}}
+            onPointerOut={() => {setHover(false)}}
+            onClick={() => {setActive(!active)}}
+            >
+                <meshLambertMaterial color={hover || active ? props.colorSelected : props.color}/>
+            </RoundedBox>
+            <Text scale={0.5} color={'#000000'} position={[0,0,0.128]} anchorX={'left'} anchorY={'middle'} whiteSpace={0} letterSpacing={-0.075} 
+             >
+                {props.element.id}
+            </Text>
+        </mesh>
+        
     )
     
 }
@@ -189,7 +196,7 @@ export default function PeriodicTable() {
         elements.map((element) =>
         <group ref={Table} position={[element.x * 1.5, element.y * 1.5, 0]} key={element.id}>
             {/* {ElementTile(element)} */}
-            <Tile scaleFactor={[1.5,1.5,1]}>
+            <Tile element={element} scaleFactor={[1.5,1.5,1]}>
                 
             </Tile>
         </group>
