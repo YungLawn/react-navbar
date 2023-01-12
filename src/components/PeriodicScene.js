@@ -13,7 +13,7 @@ export default function PeriodicScene() {
         {/* <div className='controls'>
             <button> Press Me! </button>
         </div> */}
-        <Canvas camera={{fov: 10, position:[0,0,-80] }}>
+        <Canvas camera={{fov: 30, position:[0,0,25] }}>
             
                 <SpecialControls/>
         
@@ -21,13 +21,11 @@ export default function PeriodicScene() {
                 <pointLight position={[0, -20, 100]} lookAt={[0,0,0]} intensity={1}/>
 
                 <group ref={Table} position={[-14.25, -11.5, 0]} rotation={[0,0,0]}>
-                    <React.Suspense fallback={<></>}>
-                        <PeriodicTable  />
-                    </React.Suspense>
-                </group>
+                    <PeriodicTable  />
+                </group>               
 
                 <Stars/>
-                <Stats />
+                <Stats showPanel={4}/>
                 {/* <Grid size={10} /> */}
         </Canvas>
     </div>

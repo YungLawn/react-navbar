@@ -3,19 +3,19 @@ import {OrbitControls} from '@react-three/drei';
 
 export default function SpecialControls() {
     return (
-
         <OrbitControls 
-            minPolarAngle={Math.PI / 3}
+            minPolarAngle={Math.PI / -1}
             maxPolarAngle={Math.PI / 1}
             minAzimuthAngle = {Math.PI / -2}
             maxAzimuthAngle = {Math.PI / 2}
-            minDistance = {20}
-            maxDistance = {100}
+            minDistance = {16}
+            maxDistance = {50}
             panSpeed = {1}
-            rotateSpeed = {0.5}
+            rotateSpeed = {0.75}
             zoomSpeed = {1}
             setAzimuthalAngle={Math.PI}
             target={[0,0,0]}
+            rotation={[0,5,0]}
         >
         </OrbitControls>
 
