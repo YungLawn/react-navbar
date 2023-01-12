@@ -25,7 +25,7 @@ export default function PeriodicScene() {
                 </group>               
 
                 <Stars/>
-                <Stats showPanel={4}/>
+                <Stats showPanel={0}/>
                 {/* <Grid size={10} /> */}
         </Canvas>
     </div>

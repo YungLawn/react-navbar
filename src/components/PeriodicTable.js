@@ -1,59 +1,74 @@
 import React, { useRef, useState } from "react";
 import { RoundedBox, useCursor, Text } from '@react-three/drei';
-import PeriodicText from "./PeriodicText";
+import { act } from "react-dom/test-utils";
 
 const Tile = (props) => {
-    const ElementTile = useRef();
     const [active, setActive] = useState(false);
     const [hover, setHover] = useState(false);
     useCursor(hover);
+    const isotopeMap = props.element.isotopes;
+    const boxoptions = {
+        args: [1, 1, 0.25],
+        radius: 0.05,
+        smoothness: 3
+    }
+    const textoptions = {
+        color: '#000000',
+        letterSpacing: -0.075
+    }
 
     return(
         <mesh>
             <RoundedBox 
-            position={props.position} 
-            args={[1, 1, 0.25]} 
-            radius={0.05} 
-            smoothness={3}
-            scale={hover || active ? props.scaleFactor : 1}
+            {...boxoptions}
+            scale={hover || active ? [1.5,1.5,1] : 1}
             onPointerOver={() => {setHover(true)}}
             onPointerOut={() => {setHover(false)}}
             onClick={() => {setActive(!active)}}
             >
                 <meshLambertMaterial color={hover || active ? props.colorSelected : props.color}/>
             </RoundedBox>
-            <Text scale={0.5} color={'#000000'} position={[0,0,0.128]} anchorX={'left'} anchorY={'middle'} whiteSpace={0} letterSpacing={-0.075} 
-             >
-                {props.element.id}
-            </Text>
-        </mesh>
-        
-    )
-    
-}
+            <mesh position={[0,0,0.13]}>
+                <Text 
+                    {...textoptions}
+                    scale={hover || active? [0.75,0.75, 0.5] : 0.5} 
+                    position={hover || active? [0.175 * 1.5,-0.1,0]  : [0.175,-0.1,0]} 
+                >
+                    {props.element.id}
+                </Text>
+                <Text
+                    {...textoptions}
+                    scale={hover || active? [0.2*1.5,0.2*1.5, 1] : 0.2} 
+                    position={hover || active ? [0,0.3 * 1.5,0] : [0,0.3,0]} 
 
-const IsotopeStack = (element, visible) => {
-    const isotopeMap = element.isotopes;
-    const Stack = useRef();
-    const [active, setActive] = useState(false);
-    const [hover, setHover] = useState(false);
-    useCursor(hover);
-
-    // console.log('istopes: ' + isotopeMap);
-
-    return (
-        isotopeMap.map((isotope, index) =>
-            <mesh
-            position={hover || active ? [0,0,0] : 0}
-            key={index}
-            ref={Stack}
-            onPointerOver={() => {setHover(true)}}
-            onPointerOut={() => {setHover(false)}}
-            onClick={() => {setActive(!active)}}
-            >
-                {Tile(isotope, isotope,[0, 0, 0.2 + index/3.5], [1,1,1], visible)}
+                >
+                    {props.element.mass}
+                </Text>
+                <Text
+                    {...textoptions}
+                    scale={hover || active? 0.2 *1.5 : 0.2}
+                    position={hover || active ? [-0.25*1.5,-0.35*1.5,0] : [-0.25,-0.35,0]}
+                >
+                    {props.element.num}
+                </Text>
             </mesh>
-        )
+
+            {isotopeMap.map((isotope, index) =>
+            <mesh 
+                position={[0,0,(0.26 * index) + 0.5]}
+            >
+                <RoundedBox 
+                {...boxoptions} 
+                args={[0.9,0.9,0.25]} 
+                visible={active}
+                >
+                    <meshLambertMaterial color={isotope}/>
+                </RoundedBox>
+            </mesh>
+            )
+            }
+
+        </mesh>
     )
 }
 
@@ -195,8 +210,7 @@ export default function PeriodicTable() {
     return (
         elements.map((element) =>
         <group ref={Table} position={[element.x * 1.5, element.y * 1.5, 0]} key={element.id}>
-            {/* {ElementTile(element)} */}
-            <Tile element={element} scaleFactor={[1.5,1.5,1]}>
+            <Tile element={element} >
                 
             </Tile>
         </group>
