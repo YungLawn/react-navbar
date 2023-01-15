@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { extend, Canvas } from "react-three-fiber";
 import DatGui, { DatColor, DatNumber, DatSelect } from "react-dat-gui";
 import { Text } from "troika-three-text";
-import fonts from "./fonts";
+import fonts from "../fonts";
 
 import "react-dat-gui/build/react-dat-gui.css";
 import "./styles.css";
