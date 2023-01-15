@@ -3,7 +3,7 @@ import { RoundedBox, useCursor, Text } from '@react-three/drei';
 import { events } from "@react-three/fiber";
 import fonts from "./fonts";
 
-const ElementTile = (element, toggle) => {
+const ElementTile = (element, toggleText, toggleIsotopes) => {
     const ElementTile = useRef();
     const [active, setActive] = useState(false);
     const [hover, setHover] = useState(false);
@@ -11,7 +11,7 @@ const ElementTile = (element, toggle) => {
     const isotopeMap = element.isotopes;
     const scaleFactor =[1.5,1.5,1];
     const color ='#ffffff';
-    const boxoptions = {
+    const tileOptions = {
         args: [1, 1, 0.25],
         radius: 0.05,
         smoothness: 3
@@ -19,7 +19,7 @@ const ElementTile = (element, toggle) => {
     const textoptions = {
         color: '#000000',
         letterSpacing: -0.075,
-        font: fonts.Roboto
+        // font: fonts.Roboto
         // visible: active
     };
     return(
@@ -31,22 +31,22 @@ const ElementTile = (element, toggle) => {
                 onPointerDown={(e) => {e.stopPropagation(); setActive(!active)}}
             >
                 <RoundedBox 
-                {...boxoptions}
-                scale={active || hover ? scaleFactor : 1}
+                {...tileOptions}
+                scale={active && toggleIsotopes || hover ? scaleFactor : 1}
                 >
                     <meshLambertMaterial color={color}/>
                 </RoundedBox>
 
-                {ElementText(active, hover, element, textoptions, toggle)}
+                {ElementText(active, hover, element, textoptions, toggleText)}
             </mesh>
-            {IsotopeStack(isotopeMap, boxoptions, active)}
+            {IsotopeStack(isotopeMap, tileOptions, active, toggleIsotopes)}
         </>  
     )
 }
 
-const IsotopeStack = (isotopeMap, boxoptions, pactive) => {
+const IsotopeStack = (isotopeMap, boxoptions, pactive, toggle) => {
     const [active, setActive] = useState(false);
-    if(pactive) {
+    if(pactive && toggle) {
         return (
         isotopeMap.map((isotope, index) =>
         <mesh
@@ -197,9 +197,9 @@ export default function PeriodicTable() {
         {num: 85, id:'At', name:'Astatine', mass:'(210)', x:17, y:5, isotopes: [R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,B,B,B,B,B,B]},
         {num: 86, id:'Rn', name:'Radon', mass:'(222)', x:18, y:5, isotopes: [R,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B]},
     
-        {num: 87, id:'Fr', name:'Francium', mass:'(223)', x:1, y:4, isotopes: []},
-        {num: 88, id:'Ra', name:'Radium', mass:'(226)', x:2, y:4, isotopes: []},
-        {num: 89, id:'Ac', name:'Actinium', mass:'(227)', x:3, y:4, isotopes: []},
+        {num: 87, id:'Fr', name:'Francium', mass:'(223)', x:1, y:4, isotopes: [R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B]},
+        {num: 88, id:'Ra', name:'Radium', mass:'(226)', x:2, y:4, isotopes: [R,R,R,R,R,R,B,B,B,B,B,B,B,B,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B]},
+        {num: 89, id:'Ac', name:'Actinium', mass:'(227)', x:3, y:4, isotopes: [R,R,R,R,R,R,R,R,B,R,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,R]},
     
         // {'Th', 'Thorium', '232.03806', 5, 10, isotopes: []},
         // {'Pa', 'Protactinium', '231.0588', 6, 10, isotopes: []},
@@ -232,35 +232,58 @@ export default function PeriodicTable() {
         {num: 117, id:'Ts', name:'Tennessine', mass:'(294)', x:17, y:4, isotopes: []},
         {num: 118, id:'Og', name:'Oganesson', mass:'(294)', x:18, y:4, color:'#FFFFFF', isotopes: []}
     ];
-    const toggleOptions = {
+    const menuButtonOptions = {
         args: [2, 1, 0.25],
         radius: 0.05,
-        smoothness: 3
+        smoothness: 3,
+        color: '#f75f5f',
+        colorSelected: '#31ff64'
+    }
+    const menuButtonTextOptions = {
+        color:'#000000',
+        position: [0,0,0.128],
+        scale: 0.3,
+        maxWidth: 3,
+        textAlign: 'center'
     }
     const Table = useRef();
+    const [toggleText, setToggleText] =useState(true);
+    const [toggleTextHover, setToggleTextHover] = useState(false);
     const [toggle, setToggle] =useState(true);
     const [toggleHover, setToggleHover] = useState(false);
     return (
         <mesh>
             <RoundedBox
-            {...toggleOptions}
-            scale={toggle || toggleHover ? [1.25,1.25,1] : 1}
-            position= {[-0.375,4.5,0]}
+            {...menuButtonOptions}
+            scale={toggleTextHover ? [1.25,1.25,1] : 1}
+            position= {[2.25,4.5,0]}
+            onPointerOver={(e) => {e.stopPropagation(); setToggleTextHover(true)}}
+            onPointerOut={(e) => {e.stopPropagation(); setToggleTextHover(false)}}
+            onPointerDown={(e) => {e.stopPropagation(); setToggleText(!toggleText)}}
+            >
+                <meshLambertMaterial color={toggleText ? menuButtonOptions.colorSelected : menuButtonOptions.color}/>
+                <Text 
+                    {...menuButtonTextOptions}
+                >
+                    {toggleText ? 'Text Enabled' :'Text Disabled'}</Text>
+            </RoundedBox>
+            <RoundedBox
+            {...menuButtonOptions}
+            scale={toggleHover ? [1.25,1.25,1] : 1}
+            position= {[5.25,4.5,0]}
             onPointerOver={(e) => {e.stopPropagation(); setToggleHover(true)}}
             onPointerOut={(e) => {e.stopPropagation(); setToggleHover(false)}}
             onPointerDown={(e) => {e.stopPropagation(); setToggle(!toggle)}}
             >
-                <meshLambertMaterial color={toggle || toggleHover? '#31ff64' : '#ffffff'}/>
+                <meshLambertMaterial color={toggle ? menuButtonOptions.colorSelected : menuButtonOptions.color}/>
                 <Text 
-                    color={'#000000'} 
-                    position={[0,0,0.128]} 
-                    scale={0.3}
+                    {...menuButtonTextOptions}
                 >
-                    {toggle ? 'Text Enabled' :'Text Disabled'}</Text>
+                    {toggle ? 'Isotopes Enabled' :'Isotopes Disabled'}</Text>
             </RoundedBox>
             {elements.map((element) =>
             <group ref={Table} position={[element.x * 1.5, element.y * 1.5, 0]} key={element.id}>
-                {ElementTile(element, toggle)}
+                {ElementTile(element, toggleText, toggle)}
             </group>
             )}
         </mesh>
