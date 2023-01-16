@@ -1,9 +1,7 @@
 import React, { useRef, useState } from "react";
 import { RoundedBox, useCursor, Text } from '@react-three/drei';
-import { events } from "@react-three/fiber";
-import fonts from "./fonts";
 
-const ElementTile = (element, toggleText, toggleIsotopes) => {
+const ElementTile = (element, toggleText, toggleIsotopes, clear) => {
     const ElementTile = useRef();
     const [active, setActive] = useState(false);
     const [hover, setHover] = useState(false);
@@ -19,8 +17,6 @@ const ElementTile = (element, toggleText, toggleIsotopes) => {
     const textoptions = {
         color: '#000000',
         letterSpacing: -0.075,
-        // font: fonts.Roboto
-        // visible: active
     };
     return(
         <>
@@ -28,16 +24,17 @@ const ElementTile = (element, toggleText, toggleIsotopes) => {
                 ref={ElementTile}
                 onPointerOver={(e) => {e.stopPropagation(); setHover(true)}}
                 onPointerOut={(e) => {e.stopPropagation(); setHover(false)}}
-                onPointerDown={(e) => {e.stopPropagation(); setActive(!active)}}
+                onPointerDown={(e) => {e.stopPropagation(); setActive(clear? !active : false)}}
             >
                 <RoundedBox 
                 {...tileOptions}
-                scale={active && toggleIsotopes || hover ? scaleFactor : 1}
+                scale={active || hover ? scaleFactor : 1}
                 >
                     <meshLambertMaterial color={color}/>
+                    {ElementText(element.id, element.mass, element.num, textoptions, toggleText)}  
                 </RoundedBox>
 
-                {ElementText(active, hover, element, textoptions, toggleText)}
+                {/* {ElementText(active, hover, element, textoptions, toggleText)} */}
             </mesh>
             {IsotopeStack(isotopeMap, tileOptions, active, toggleIsotopes)}
         </>  
@@ -66,31 +63,31 @@ const IsotopeStack = (isotopeMap, boxoptions, pactive, toggle) => {
     return;
 }
 
-const ElementText = (active, hover, element, textoptions, enabled) => {
+const ElementText = (id, mass, num, textoptions, enabled) => {
     if(enabled) {
         return (
         <mesh position={[0,0,0.128]}>
             <Text 
                 {...textoptions}
-                scale={hover || active? [0.75,0.75, 0.5] : 0.5} 
-                position={hover || active? [0.175 * 1.5,-0.1,0]  : [0.175,-0.1,0]} 
+                scale={0.5}
+                position={[0.175,-0.1,0]}
             >
-                {element.id}
+                {id}
             </Text>
             <Text
                 {...textoptions}
-                scale={hover || active? [0.25*1.5,0.25*1.5, 1] : 0.25} 
-                position={hover || active ? [0,0.3 * 1.5,0] : [0,0.3,0]} 
+                scale={0.25}
+                position={[0,0.3,0]}
 
             >
-                {element.mass}
+                {mass}
             </Text>
             <Text
                 {...textoptions}
-                scale={hover || active? 0.25 *1.5 : 0.25}
-                position={hover || active ? [-0.25*1.5,-0.35*1.5,0] : [-0.25,-0.35,0]}
+                scale={0.25}
+                position={[-0.25,-0.35,0]}
             >
-                {element.num}
+                {num}
             </Text>
         </mesh>
     )
@@ -251,6 +248,8 @@ export default function PeriodicTable() {
     const [toggleTextHover, setToggleTextHover] = useState(false);
     const [toggle, setToggle] =useState(true);
     const [toggleHover, setToggleHover] = useState(false);
+    const [clear, setClear] = useState(true);
+    const [clearHover, setClearHover] = useState(false);
     return (
         <mesh>
             <RoundedBox
@@ -267,6 +266,7 @@ export default function PeriodicTable() {
                 >
                     {toggleText ? 'Text Enabled' :'Text Disabled'}</Text>
             </RoundedBox>
+
             <RoundedBox
             {...menuButtonOptions}
             scale={toggleHover ? [1.25,1.25,1] : 1}
@@ -281,9 +281,25 @@ export default function PeriodicTable() {
                 >
                     {toggle ? 'Isotopes Enabled' :'Isotopes Disabled'}</Text>
             </RoundedBox>
+
+            <RoundedBox
+            {...menuButtonOptions}
+            scale={clearHover ? [1.25,1.25,1] : 1}
+            position= {[8.25,4.5,0]}
+            onPointerOver={(e) => {e.stopPropagation(); setClearHover(true)}}
+            onPointerOut={(e) => {e.stopPropagation(); setClearHover(false)}}
+            onPointerDown={(e) => {e.stopPropagation(); setClear(!clear)}}
+            >
+                <meshLambertMaterial color={clear ? menuButtonOptions.colorSelected : menuButtonOptions.color}/>
+                <Text 
+                    {...menuButtonTextOptions}
+                >
+                    Select All</Text>
+            </RoundedBox>
+
             {elements.map((element) =>
             <group ref={Table} position={[element.x * 1.5, element.y * 1.5, 0]} key={element.id}>
-                {ElementTile(element, toggleText, toggle)}
+                {ElementTile(element, toggleText, toggle, clear)}
             </group>
             )}
         </mesh>
