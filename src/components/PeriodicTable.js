@@ -16,7 +16,7 @@ const ElementTile = (element, toggleText, toggleIsotopes, clear) => {
     };
     const textoptions = {
         color: '#000000',
-        letterSpacing: -0.075,
+        letterSpacing: -0.075
     };
     return(
         <>
@@ -78,7 +78,6 @@ const ElementText = (id, mass, num, textoptions, enabled) => {
                 {...textoptions}
                 scale={0.25}
                 position={[0,0.3,0]}
-
             >
                 {mass}
             </Text>
